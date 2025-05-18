@@ -1,97 +1,91 @@
-# Chat App
+#Chat App
 
-## Table of Contents
-1. [General Info](#general-info)
-2. [Features](#features)
-3. [Technologies](#technologies)
-4. [Database Model](#database-model)
-6. [Deployed Version](#deployed-version)
+## General Information
 
----
+### Project Overview
 
-## General Info
+This is a real-time **Chat Application** built with the **MERN** stack (MongoDB, Express.js, React, Node.js). The application enables users to send and receive messages in real-time, with a simple, modern user interface built using **TailwindCSS** and **DaisyUI** for styling. 
 
+The app allows users to create accounts, send messages, view chat history, and receive notifications for new messages. The state management is handled using **Zustand**, and notifications for actions (like sending or receiving messages) are handled with **React-Hot-Toast**.
 
----
+App is still in progress.
 
-## Features
-- Real-time GPS tracking of user movement.
-- Route visualization on an interactive map.
-- Calculation of distance traveled, route duration, and average speed.
-- Automatic calculation of allowances based on predefined prices.
-- User profile and route history with statistics.
-- Admin access to all user route data and cost summaries.
-- Ability to generate monthly reports for users.
-- Integration with Google Geocoding API for address visualization on routes.
-- Real-time data updates using Geolocation API and Leaflet for maps.
-  
----
+### Key Features
+- **Real-time Messaging**: Users can send and receive messages in real-time.
+- **User Authentication**: Secure login and registration system.
+- **Message History**: Access to a list of past messages with users.
+- **Responsive UI**: The app is fully responsive and works on both desktop and mobile devices.
+- **Toast Notifications**: Alerts and notifications for actions using React-Hot-Toast.
+- **User Profiles**: Users can view and edit their profiles.
+- **Interactive UI**: The app utilizes **TailwindCSS** and **DaisyUI** for an intuitive and visually appealing interface.
+- **Routing**: The app uses **React Router DOM** for seamless navigation between pages.
 
-## Technologies
-This project uses a range of technologies for both the backend and frontend:
-
-- **Backend**: 
-  - ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)  
-  - ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white)
-
-- **Frontend**: 
-  - ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)  
-
-- **Styling**:
-  - ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white)
-
-- **Database**: 
-  - ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
-
-- **Real-time Communication**: 
-  - Geolocation API
-
-- **Map Visualization**: 
-  - ![Leaflet](https://img.shields.io/badge/Leaflet-3c3c3c?style=flat&logo=leaflet&logoColor=white)
-
-- **Charts**: 
-  - ![Charts.js](https://img.shields.io/badge/Charts.js-F7A400?style=flat&logo=chart.js&logoColor=white)
-
-- **Geocoding**: 
-  - Google Geocoding API
-
-
-The app utilizes the MERN stack, which is a popular combination of technologies for building modern, scalable web applications.
-
----
+### Technologies Used
+- ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white) **MongoDB**: NoSQL database for storing user and chat data.
+- ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white) **Express.js**: Web framework for building the server-side of the app.
+- ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black) **React**: JavaScript library for building the frontend of the app.
+- ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white) **Node.js**: JavaScript runtime for building the backend of the app.
+- ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38BDF8?style=flat&logo=tailwind-css&logoColor=white) **TailwindCSS**: Utility-first CSS framework for fast and responsive design.
+- ![DaisyUI](https://img.shields.io/badge/DaisyUI-0B6E4F?style=flat&logo=tailwindcss&logoColor=white) **DaisyUI**: Component library for building beautiful UI elements with TailwindCSS.
+- ![Zustand](https://img.shields.io/badge/Zustand-8E5F5B?style=flat&logo=redux&logoColor=white) **Zustand**: A minimalistic state management library for React.
+- ![React-Hot-Toast](https://img.shields.io/badge/React%20Hot%20Toast-000000?style=flat&logo=react&logoColor=white) **React-Hot-Toast**: Library for easy and customizable toast notifications in React.
+- ![React Router DOM](https://img.shields.io/badge/React%20Router%20DOM-CA4245?style=flat&logo=react-router&logoColor=white) **React Router DOM**: For handling client-side routing and navigation.
 
 ## Database Model
 The application uses MongoDB for storing user data and routes. Below are the key schemas:
 
 ### User Model:
 ```javascript
-const userSchema = new Schema({
-  name: { type: String },
-  age: { type: Number },
-  company: { type: String },
-  carPlate: { type: String },
-  email: { type: String },
-  password: { type: String },
-  role: { type: String, enum: ["user", "admin"], default: "user" },
-  createdOn: { type: Date, default: new Date().getTime() },
-});
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    fullName: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+    profilePic: {
+      type: String,
+      default: "",
+    },
+  },
+  { timestamps: true }
+);
 ```
 
-### Route Model:
+### Message Model:
 ```javascript
-const mapRouteSchema = new Schema({
-  title: { type: String, required: true },
-  coordinates: { type: Array, required: true },
-  distance: { type: Number, required: true },
-  startTime: { type: Number, required: true },
-  endTime: { type: Number, required: true },
-  duration: { type: Number, required: true },
-  description: { type: String },
-  status: { type: Boolean, required: true },
-  userId: { type: String, required: true },
-});
-});
-```
+const messageSchema = new mongoose.Schema(
+  {
+    senderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    receiverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    text: {
+      type: String,
+    },
 
+    image: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
+```
 ## Deployed Version
-In progress.
+
+Still in progress...
