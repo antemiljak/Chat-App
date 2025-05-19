@@ -20,6 +20,22 @@ App is still in progress.
 - **Interactive UI**: The app utilizes **TailwindCSS** and **DaisyUI** for an intuitive and visually appealing interface.
 - **Routing**: The app uses **React Router DOM** for seamless navigation between pages.
 
+
+### Screenshoots
+
+#### Login page
+![Login page](./screenshots/loginpage.png)
+
+#### Signup page
+![Signup](./screenshots/signup.png)
+
+#### Settings 
+![Settings](./screenshots/settings.png)
+
+#### Profile View
+![Profile](./screenshots/profile.png)
+
+
 ### Technologies Used
 - ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white) **MongoDB**: NoSQL database for storing user and chat data.
 - ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white) **Express.js**: Web framework for building the server-side of the app.
